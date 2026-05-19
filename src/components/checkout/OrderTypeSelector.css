@@ -1,0 +1,59 @@
+.ots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ots-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  width: 100%;
+}
+.ots-option:hover { border-color: #e85d24; background: #fff7f4; }
+.ots-option--active {
+  border-color: #e85d24;
+  background: #fff7f4;
+}
+
+.ots-icon { font-size: 1.6rem; flex-shrink: 0; }
+
+.ots-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 2px;
+}
+.ots-desc {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.ots-check {
+  margin-left: auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #e85d24;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  opacity: 0;
+}
+.ots-option--active .ots-check { opacity: 1; }
+
+@media (max-width: 480px) {
+  .ots { grid-template-columns: 1fr; }
+}

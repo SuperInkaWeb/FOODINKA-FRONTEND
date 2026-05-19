@@ -1,0 +1,167 @@
+.rrform {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rrform-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  font-size: 0.82rem;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 4px;
+  transition: color 0.15s;
+}
+.rrform-back:hover { color: #e85d24; }
+
+.rrform-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 2px;
+}
+.rrform-sub {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* Campos */
+.rrform-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rrform-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+}
+.rrform-optional {
+  font-weight: 400;
+  color: #9ca3af;
+}
+.rrform-input {
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.rrform-input:focus       { border-color: #e85d24; }
+.rrform-input--valid      { border-color: #16a34a !important; }
+.rrform-input--invalid    { border-color: #dc2626 !important; }
+.rrform-textarea {
+  height: auto;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+/* RUC con ícono de estado */
+.rrform-ruc-wrap {
+  position: relative;
+}
+.rrform-ruc { padding-right: 42px; }
+.rrform-ruc-status {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.rrform-ruc-ok {
+  font-size: 0.78rem;
+  color: #15803d;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.rrform-ruc-err {
+  font-size: 0.78rem;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+/* Categorías */
+.rrform-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rrform-cat {
+  padding: 7px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 99px;
+  background: #fff;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.rrform-cat:hover      { border-color: #e85d24; color: #e85d24; }
+.rrform-cat--active    { background: #e85d24; border-color: #e85d24; color: #fff; }
+
+/* Fila de dos columnas */
+.rrform-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Aviso */
+.rrform-notice {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+/* Botón submit */
+.rrform-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: #e85d24;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.rrform-submit:hover:not(:disabled) { background: #cf4f1f; }
+.rrform-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.rrform-spinner { animation: spin 0.8s linear infinite; }
+
+@media (max-width: 480px) {
+  .rrform-row { grid-template-columns: 1fr; }
+}

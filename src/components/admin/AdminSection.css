@@ -1,0 +1,11 @@
+.admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.admin-section-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}

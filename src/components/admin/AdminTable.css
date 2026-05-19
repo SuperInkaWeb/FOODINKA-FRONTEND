@@ -1,0 +1,145 @@
+.atable-wrap {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.atable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.845rem;
+}
+
+.atable thead th {
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+  white-space: nowrap;
+}
+
+.atable tbody tr {
+  border-bottom: 1px solid #f9fafb;
+  transition: background 0.1s;
+}
+.atable tbody tr:last-child { border-bottom: none; }
+.atable tbody tr:hover { background: #fafafa; }
+
+.atable tbody td {
+  padding: 12px 16px;
+  color: #374151;
+  vertical-align: middle;
+}
+
+/* Badge */
+.atable-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+/* Botones de acción */
+.atable-action {
+  padding: 5px 12px;
+  border-radius: 7px;
+  border: 1px solid;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.atable-action--green { border-color: #16a34a; color: #16a34a; background: #f0fdf4; }
+.atable-action--green:hover { background: #16a34a; color: #fff; }
+.atable-action--red   { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+.atable-action--red:hover   { background: #dc2626; color: #fff; }
+.atable-action--gray  { border-color: #d1d5db; color: #6b7280; background: #f9fafb; }
+.atable-action--gray:hover  { background: #e5e7eb; }
+
+/* Loading */
+.atable-loading { display: flex; flex-direction: column; gap: 1px; }
+.atable-loading-row {
+  height: 52px;
+  background: linear-gradient(90deg, #f9fafb 25%, #f3f4f6 50%, #f9fafb 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* Empty */
+.atable-empty {
+  padding: 40px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* Search + Filter row */
+.atable-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0 12px;
+  height: 38px;
+  min-width: 220px;
+}
+.atable-search svg { color: #9ca3af; flex-shrink: 0; }
+.atable-search input {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 0.85rem;
+  color: #111827;
+  width: 100%;
+}
+
+.atable-filter {
+  height: 38px;
+  padding: 0 10px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: 0.85rem;
+  color: #374151;
+  outline: none;
+  cursor: pointer;
+}
+.atable-filter:focus { border-color: #e85d24; }
+
+/* Pagination */
+.atable-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 16px;
+}
+.atable-page-btn {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: #374151;
+}
+.atable-page-btn:hover:not(:disabled) { border-color: #e85d24; color: #e85d24; }
+.atable-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.atable-page-info { font-size: 0.82rem; color: #9ca3af; }

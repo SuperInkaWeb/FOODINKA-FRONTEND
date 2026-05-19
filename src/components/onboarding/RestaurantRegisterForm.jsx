@@ -1,0 +1,218 @@
+import { useState } from 'react'
+import { Loader2, ArrowLeft, CheckCircle, XCircle } from 'lucide-react'
+import { useApi } from '../../hooks/useApi.js'
+import './RestaurantRegisterForm.css'
+
+const CATEGORIES = [
+  { value: 'cevicheria', label: '🐟 Cevichería' },
+  { value: 'chifa',      label: '🍜 Chifa' },
+  { value: 'fast_food',  label: '🍔 Fast Food' },
+  { value: 'pizzeria',   label: '🍕 Pizzería' },
+  { value: 'parrilla',   label: '🥩 Parrilla' },
+  { value: 'heladeria',  label: '🍦 Heladería' },
+  { value: 'cafe',       label: '☕ Café' },
+  { value: 'buffet',     label: '🥗 Buffet' },
+  { value: 'otro',       label: '🍽️ Otro' },
+]
+
+const DISTRICTS = [
+  'Miraflores','San Isidro','Barranco','Surco','La Molina',
+  'San Borja','Cercado de Lima','Lince','Jesús María','Magdalena',
+  'San Miguel','Pueblo Libre','Breña','Rímac','Los Olivos',
+  'San Martín de Porres','Ate','La Victoria','Chorrillos',
+]
+
+export default function RestaurantRegisterForm({ onSubmit, onBack, loading }) {
+  const api = useApi()
+
+  const [form, setForm] = useState({
+    name: '', ruc: '', category: '', description: '',
+    address: '', district: '', phone: '',
+  })
+
+  const [rucStatus, setRucStatus] = useState(null) // null | 'checking' | 'valid' | 'invalid'
+  const [rucData,   setRucData]   = useState(null)  // datos de SUNAT
+
+  const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }))
+
+  // Verificar RUC cuando tiene 11 dígitos
+  const handleRucChange = async (e) => {
+    const val = e.target.value.replace(/\D/g, '').slice(0, 11)
+    setForm(f => ({ ...f, ruc: val }))
+    setRucData(null)
+
+    if (val.length === 11) {
+      setRucStatus('checking')
+      try {
+        const { data } = await api.get(`/api/v1/restaurants/verify-ruc/${val}`)
+        setRucStatus('valid')
+        setRucData(data.data)
+        // Autocompletar nombre si está vacío
+        if (!form.name && data.data?.razonSocial) {
+          setForm(f => ({ ...f, name: data.data.razonSocial, ruc: val }))
+        } else {
+          setForm(f => ({ ...f, ruc: val }))
+        }
+      } catch {
+        setRucStatus('invalid')
+        setForm(f => ({ ...f, ruc: val }))
+      }
+    } else {
+      setRucStatus(null)
+    }
+  }
+
+  const handleSubmit = async () => {
+    if (rucStatus !== 'valid') return
+    if (!form.name || !form.category || !form.address || !form.district) return
+    await onSubmit(form)
+  }
+
+  const isValid = rucStatus === 'valid' && form.name && form.category && form.address && form.district
+
+  return (
+    <div className="rrform">
+      <button className="rrform-back" onClick={onBack}>
+        <ArrowLeft size={16} /> Volver
+      </button>
+
+      <h2 className="rrform-title">Datos del restaurante</h2>
+      <p className="rrform-sub">Necesitamos verificar tu RUC con SUNAT</p>
+
+      {/* RUC — campo principal */}
+      <div className="rrform-field">
+        <label className="rrform-label">RUC *</label>
+        <div className="rrform-ruc-wrap">
+          <input
+            className={`rrform-input rrform-ruc ${
+              rucStatus === 'valid'   ? 'rrform-input--valid'   :
+              rucStatus === 'invalid' ? 'rrform-input--invalid' : ''
+            }`}
+            type="text"
+            inputMode="numeric"
+            placeholder="20123456789"
+            value={form.ruc}
+            onChange={handleRucChange}
+            maxLength={11}
+          />
+          <span className="rrform-ruc-status">
+            {rucStatus === 'checking' && <Loader2 size={18} className="rrform-spinner" />}
+            {rucStatus === 'valid'    && <CheckCircle size={18} color="#16a34a" />}
+            {rucStatus === 'invalid'  && <XCircle    size={18} color="#dc2626" />}
+          </span>
+        </div>
+
+        {/* Feedback del RUC */}
+        {rucStatus === 'valid' && rucData && (
+          <div className="rrform-ruc-ok">
+            ✅ <strong>{rucData.razonSocial}</strong> — {rucData.estado}
+          </div>
+        )}
+        {rucStatus === 'invalid' && (
+          <div className="rrform-ruc-err">
+            ❌ RUC no encontrado o inactivo en SUNAT
+          </div>
+        )}
+      </div>
+
+      {/* Nombre */}
+      <div className="rrform-field">
+        <label className="rrform-label">Nombre del restaurante *</label>
+        <input
+          className="rrform-input"
+          type="text"
+          placeholder="Ej: La Cevichería de Carlos"
+          value={form.name}
+          onChange={set('name')}
+        />
+      </div>
+
+      {/* Categoría */}
+      <div className="rrform-field">
+        <label className="rrform-label">Categoría *</label>
+        <div className="rrform-categories">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat.value}
+              type="button"
+              className={`rrform-cat ${form.category === cat.value ? 'rrform-cat--active' : ''}`}
+              onClick={() => setForm(f => ({ ...f, category: cat.value }))}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Dirección y distrito */}
+      <div className="rrform-row">
+        <div className="rrform-field">
+          <label className="rrform-label">Dirección *</label>
+          <input
+            className="rrform-input"
+            type="text"
+            placeholder="Av. La Mar 770"
+            value={form.address}
+            onChange={set('address')}
+          />
+        </div>
+        <div className="rrform-field">
+          <label className="rrform-label">Distrito *</label>
+          <select
+            className="rrform-input"
+            value={form.district}
+            onChange={set('district')}
+          >
+            <option value="">Seleccionar</option>
+            {DISTRICTS.map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
+        </div>
+      </div>
+
+      {/* Teléfono */}
+      <div className="rrform-field">
+        <label className="rrform-label">
+          Teléfono <span className="rrform-optional">(opcional)</span>
+        </label>
+        <input
+          className="rrform-input"
+          type="tel"
+          placeholder="01 234 5678"
+          value={form.phone}
+          onChange={set('phone')}
+        />
+      </div>
+
+      {/* Descripción */}
+      <div className="rrform-field">
+        <label className="rrform-label">
+          Descripción <span className="rrform-optional">(opcional)</span>
+        </label>
+        <textarea
+          className="rrform-input rrform-textarea"
+          placeholder="Cuéntanos sobre tu restaurante..."
+          value={form.description}
+          onChange={set('description')}
+          rows={3}
+        />
+      </div>
+
+      {/* Info de verificación */}
+      <div className="rrform-notice">
+        📋 Tu restaurante quedará <strong>pendiente de verificación</strong> por nuestro equipo.
+        Te notificaremos por correo cuando esté aprobado.
+      </div>
+
+      <button
+        className="rrform-submit"
+        onClick={handleSubmit}
+        disabled={!isValid || loading}
+      >
+        {loading
+          ? <><Loader2 size={18} className="rrform-spinner" /> Enviando...</>
+          : '📧 Registrar restaurante'
+        }
+      </button>
+    </div>
+  )
+}

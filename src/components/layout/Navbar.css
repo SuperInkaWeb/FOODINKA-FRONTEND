@@ -1,0 +1,215 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #e85d24;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.navbar-logo svg {
+  color: #e85d24;
+}
+
+/* Acciones */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Carrito */
+.navbar-cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #374151;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.navbar-cart:hover { background: #f9fafb; }
+
+.navbar-cart-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #e85d24;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón login */
+.navbar-btn-login {
+  background: #e85d24;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.navbar-btn-login:hover { background: #cf4f1f; }
+
+/* Avatar */
+.navbar-profile { position: relative; }
+
+.navbar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #f0f0f0;
+  background: #f9fafb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.navbar-avatar:hover { border-color: #e85d24; }
+.navbar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Dropdown */
+.navbar-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  min-width: 200px;
+  overflow: hidden;
+  animation: dropdownIn 0.15s ease;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.navbar-dropdown-header {
+  padding: 14px 16px 10px;
+}
+.navbar-dropdown-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #111827;
+  margin: 0 0 2px;
+}
+.navbar-dropdown-email {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.navbar-dropdown button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+}
+.navbar-dropdown button:hover { background: #f9fafb; }
+
+.navbar-dropdown-divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 4px 0;
+}
+
+.navbar-dropdown-logout { color: #dc2626 !important; }
+
+/* Hamburguesa */
+.navbar-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #374151;
+  padding: 6px;
+}
+
+/* Menú mobile */
+.navbar-mobile {
+  border-top: 1px solid #f0f0f0;
+  padding: 12px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.navbar-mobile a,
+.navbar-mobile button {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #374151;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.1s;
+}
+.navbar-mobile a:hover,
+.navbar-mobile button:hover { background: #f9fafb; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .navbar-actions  { display: none; }
+  .navbar-hamburger { display: flex; }
+}
+
+/* Role badge en el dropdown */
+.navbar-dropdown-role {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #e85d24;
+  margin-top: 4px;
+  background: #fff7f4;
+  padding: 2px 8px;
+  border-radius: 99px;
+}

@@ -1,0 +1,76 @@
+.roleselector-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 6px;
+  text-align: center;
+}
+.roleselector-sub {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  text-align: center;
+  margin: 0 0 28px;
+}
+
+.roleselector-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.roleselector-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: all 0.15s;
+}
+.roleselector-option:hover:not(:disabled) {
+  border-color: #e85d24;
+  background: #fff7f4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(232,93,36,0.12);
+}
+.roleselector-option:disabled { opacity: 0.6; cursor: not-allowed; }
+.roleselector-option--restaurant:hover:not(:disabled) { border-color: #e85d24; }
+
+.roleselector-icon { font-size: 2rem; flex-shrink: 0; }
+
+.roleselector-option div { flex: 1; }
+.roleselector-label {
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+.roleselector-desc {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.roleselector-arrow {
+  font-size: 1.1rem;
+  color: #d1d5db;
+  transition: color 0.15s;
+}
+.roleselector-option:hover .roleselector-arrow { color: #e85d24; }
+
+.roleselector-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.roleselector-spinner { animation: spin 0.8s linear infinite; }

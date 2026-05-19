@@ -1,0 +1,132 @@
+.osummary {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.osummary-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.osummary-restaurant {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin: 0 0 16px;
+}
+
+/* Items */
+.osummary-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.osummary-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.osummary-item-qty {
+  color: #e85d24;
+  font-weight: 700;
+  flex-shrink: 0;
+  width: 24px;
+}
+.osummary-item-name {
+  flex: 1;
+  color: #374151;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.osummary-item-price {
+  font-weight: 600;
+  color: #111827;
+  flex-shrink: 0;
+}
+
+.osummary-divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 14px 0;
+}
+
+/* Meta tipo / pago */
+.osummary-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.osummary-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+.osummary-meta-row span:first-child { color: #9ca3af; }
+.osummary-meta-row span:last-child  { color: #374151; font-weight: 600; }
+
+/* Totales */
+.osummary-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.osummary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  color: #374151;
+}
+.osummary-row--note span:last-child {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.osummary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 2px solid #f3f4f6;
+  margin: 14px 0 20px;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #111827;
+}
+
+/* Botón */
+.osummary-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #e85d24;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.osummary-btn:hover:not(:disabled) { background: #cf4f1f; }
+.osummary-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.osummary-spinner {
+  animation: spin 0.8s linear infinite;
+}

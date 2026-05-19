@@ -1,0 +1,184 @@
+/* AdminMetrics.css */
+.metrics { display: flex; flex-direction: column; gap: 24px; }
+
+/* KPI grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.stat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stat-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stat-card-trend {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 99px;
+}
+.stat-card-trend--up   { background: #f0fdf4; color: #16a34a; }
+.stat-card-trend--down { background: #fef2f2; color: #dc2626; }
+
+.stat-card-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+.stat-card-label {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  font-weight: 500;
+  margin: 0;
+}
+.stat-card-sub {
+  font-size: 0.75rem;
+  color: #d1d5db;
+  margin: 0;
+}
+
+/* Chart */
+.metrics-chart-card {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 14px;
+  padding: 24px;
+}
+.metrics-chart-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 20px;
+}
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  height: 160px;
+}
+.chart-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+}
+.chart-val {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+.chart-bar-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  background: #f9fafb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.chart-bar {
+  width: 100%;
+  background: linear-gradient(to top, #e85d24, #f97316);
+  border-radius: 6px;
+  min-height: 4px;
+  transition: height 0.3s;
+}
+.chart-label {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+.chart-empty {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d1d5db;
+  font-size: 0.875rem;
+}
+
+/* Bottom cards */
+.metrics-bottom {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.metrics-detail-card {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 14px;
+  padding: 20px;
+}
+.metrics-detail-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 14px;
+}
+.metrics-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid #f9fafb;
+  font-size: 0.82rem;
+  color: #374151;
+  gap: 8px;
+}
+.metrics-detail-row:last-child { border-bottom: none; }
+.metrics-detail-count { font-weight: 700; color: #111827; flex-shrink: 0; }
+
+.metrics-top-rank  { font-weight: 700; color: #e85d24; width: 20px; flex-shrink: 0; }
+.metrics-top-name  { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Status badges */
+.metrics-status { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; text-transform: uppercase; }
+.metrics-status--pending    { background: #fffbeb; color: #b45309; }
+.metrics-status--confirmed  { background: #eff6ff; color: #1d4ed8; }
+.metrics-status--preparing  { background: #fff7ed; color: #c2410c; }
+.metrics-status--ready      { background: #f0fdf4; color: #15803d; }
+.metrics-status--on_the_way { background: #f5f3ff; color: #7c3aed; }
+.metrics-status--delivered  { background: #f0fdf4; color: #16a34a; }
+.metrics-status--cancelled  { background: #fef2f2; color: #dc2626; }
+
+/* Skeleton */
+.metrics-skeleton { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.metrics-skeleton-card {
+  height: 120px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+@media (max-width: 1024px) {
+  .metrics-grid   { grid-template-columns: repeat(2,1fr); }
+  .metrics-bottom { grid-template-columns: 1fr; }
+}

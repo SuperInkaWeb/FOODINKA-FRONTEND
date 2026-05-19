@@ -1,0 +1,127 @@
+.rinfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rinfo-card {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.rinfo-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 16px;
+}
+
+.rinfo-desc {
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Grid de items */
+.rinfo-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rinfo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.rinfo-icon {
+  color: #e85d24;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.rinfo-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rinfo-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.rinfo-value {
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.rinfo-free {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+/* Badges */
+.rinfo-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.rinfo-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 99px;
+}
+
+.rinfo-badge--delivery {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+.rinfo-badge--reservation {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+/* Horarios */
+.rinfo-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rinfo-hour-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f9fafb;
+}
+.rinfo-hour-row:last-child { border-bottom: none; }
+
+.rinfo-hour-day {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  width: 48px;
+}
+
+.rinfo-hour-time {
+  font-size: 0.875rem;
+  color: #6b7280;
+}

@@ -1,0 +1,85 @@
+/* Contador */
+.rgrid-count {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin: 0 0 16px;
+}
+
+/* Grilla responsive */
+.rgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* ── Skeleton ──────────────────────────────────────────────── */
+.rgrid-skeleton {
+  border-radius: 16px;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.rgrid-skeleton-img {
+  height: 160px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.rgrid-skeleton-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rgrid-skeleton-line {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+.rgrid-skeleton-line--title { height: 16px; width: 70%; }
+.rgrid-skeleton-line--short { width: 45%; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Sin resultados / error ────────────────────────────────── */
+.rgrid-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  text-align: center;
+  gap: 8px;
+}
+
+.rgrid-empty span {
+  font-size: 3rem;
+  margin-bottom: 8px;
+}
+
+.rgrid-empty p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.rgrid-empty small {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .rgrid {
+    grid-template-columns: 1fr;
+  }
+}

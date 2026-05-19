@@ -1,0 +1,60 @@
+.rdetail {
+  min-height: 100vh;
+  background: #fafafa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.rdetail-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ── Skeleton ──────────────────────────────────────────────── */
+.rdetail-skeleton { animation: pulse 1.5s infinite; }
+
+.rdetail-skeleton-hero {
+  height: 340px;
+  background: #e5e7eb;
+}
+
+.rdetail-skeleton-body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rdetail-skeleton-line {
+  height: 14px;
+  border-radius: 6px;
+  background: #e5e7eb;
+}
+.rdetail-skeleton-line--title { height: 28px; width: 40%; }
+.rdetail-skeleton-line--short { width: 30%; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Error ─────────────────────────────────────────────────── */
+.rdetail-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 24px;
+  gap: 12px;
+  text-align: center;
+}
+.rdetail-error span { font-size: 3rem; }
+.rdetail-error p    { font-size: 1rem; color: #374151; font-weight: 600; }
+
+@media (max-width: 640px) {
+  .rdetail-content { padding: 20px 16px 48px; }
+}

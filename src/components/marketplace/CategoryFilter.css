@@ -1,0 +1,116 @@
+.catfilter {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Chips de categoría ─────────────────────────────────────── */
+.catfilter-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.catfilter-chips::-webkit-scrollbar { display: none; }
+
+.catfilter-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.catfilter-chip:hover {
+  border-color: #e85d24;
+  color: #e85d24;
+  background: #fff7f4;
+}
+.catfilter-chip--active {
+  border-color: #e85d24;
+  background: #e85d24;
+  color: #fff;
+}
+.catfilter-chip--active:hover {
+  background: #cf4f1f;
+  color: #fff;
+}
+
+/* ── Filtros secundarios ────────────────────────────────────── */
+.catfilter-secondary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Select de distrito */
+.catfilter-select {
+  height: 38px;
+  padding: 0 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.85rem;
+  color: #374151;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.catfilter-select:hover,
+.catfilter-select:focus   { border-color: #e85d24; }
+.catfilter-select--active { border-color: #e85d24; color: #e85d24; font-weight: 600; }
+
+/* Toggles delivery / reservas */
+.catfilter-toggle {
+  height: 38px;
+  padding: 0 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.catfilter-toggle:hover {
+  border-color: #e85d24;
+  color: #e85d24;
+}
+.catfilter-toggle--active {
+  border-color: #e85d24;
+  background: #fff7f4;
+  color: #e85d24;
+  font-weight: 600;
+}
+
+/* Limpiar filtros */
+.catfilter-clear {
+  height: 38px;
+  padding: 0 14px;
+  border: none;
+  background: none;
+  font-size: 0.82rem;
+  color: #9ca3af;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+.catfilter-clear:hover { color: #e85d24; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .catfilter-secondary { gap: 8px; }
+  .catfilter-select    { font-size: 0.8rem; }
+}
