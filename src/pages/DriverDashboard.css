@@ -1,0 +1,202 @@
+.ddash {
+  min-height: 100vh;
+  background: #fafafa;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.ddash-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 28px 24px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.ddash-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+}
+
+/* Selector de zona */
+.ddash-zone {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  padding: 20px;
+}
+.ddash-zone-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 14px;
+}
+.ddash-select {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+.ddash-select:focus { border-color: #e85d24; }
+
+/* Empty / loading */
+.ddash-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  color: #9ca3af;
+}
+.ddash-empty p  { font-size: 0.9rem; margin: 0; }
+.ddash-loading  {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 40px;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.ddash-refresh {
+  background: none;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 0.82rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ddash-refresh:hover { border-color: #e85d24; color: #e85d24; }
+
+/* Orders list */
+.ddash-orders { display: flex; flex-direction: column; gap: 12px; }
+.ddash-orders-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: #9ca3af;
+}
+
+/* Order card */
+.dorder {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.2s;
+}
+.dorder:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+
+.dorder-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.dorder-number {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #6366f1;
+  font-family: monospace;
+  margin: 0 0 2px;
+}
+.dorder-restaurant {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px;
+}
+.dorder-address {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: #9ca3af;
+  margin: 0;
+}
+.dorder-items {
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 99px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dorder-delivery {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #374151;
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.dorder-delivery svg { color: #e85d24; flex-shrink: 0; }
+
+.dorder-phone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+.dorder-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid #f3f4f6;
+}
+.dorder-total {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #111827;
+}
+.dorder-accept {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #e85d24;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.dorder-accept:hover:not(:disabled) { background: #cf4f1f; }
+.dorder-accept:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.ddash-spinner  { animation: spin 0.8s linear infinite; }
+.dorder-spinner { animation: spin 0.8s linear infinite; }
+
+@media (max-width: 640px) {
+  .ddash-inner { padding: 20px 16px 48px; }
+}

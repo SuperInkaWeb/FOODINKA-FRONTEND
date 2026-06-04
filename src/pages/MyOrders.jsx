@@ -1,0 +1,228 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ShoppingBag, ChevronRight, Calendar, Bike } from 'lucide-react'
+import Navbar from '../components/layout/Navbar.jsx'
+import OrderStatusBadge from '../components/orders/OrderStatusBadge.jsx'
+import { useMyOrders } from '../hooks/useOrders.js'
+import './MyOrders.css'
+
+const FILTER_OPTIONS = [
+  { value: '',           label: 'Todos' },
+  { value: 'PENDING',    label: 'Pendientes' },
+  { value: 'CONFIRMED',  label: 'Confirmados' },
+  { value: 'PREPARING',  label: 'Preparando' },
+  { value: 'READY',      label: 'Listos' },
+  { value: 'ON_THE_WAY', label: 'En camino' },
+  { value: 'DELIVERED',  label: 'Entregados' },
+  { value: 'CANCELLED',  label: 'Cancelados' },
+]
+
+function CRMStats({ crm }) {
+  if (!crm) return null
+  return (
+    <div className="myorders-crm">
+      <div className="myorders-crm-card">
+        <p className="myorders-crm-value">{crm.totalOrders}</p>
+        <p className="myorders-crm-label">Total pedidos</p>
+      </div>
+      <div className="myorders-crm-card">
+        <p className="myorders-crm-value">S/ {crm.totalSpent?.toFixed(2)}</p>
+        <p className="myorders-crm-label">Total gastado</p>
+      </div>
+      <div className="myorders-crm-card">
+        <p className="myorders-crm-value">
+          {crm.totalOrders > 0
+            ? `S/ ${(crm.totalSpent / crm.totalOrders).toFixed(2)}`
+            : 'S/ 0.00'
+          }
+        </p>
+        <p className="myorders-crm-label">Ticket promedio</p>
+      </div>
+      {crm.topRestaurants?.length > 0 && (
+        <div className="myorders-crm-card" style={{ gridColumn: '1 / -1' }}>
+          <p className="myorders-crm-label" style={{ marginBottom: 8 }}>⭐ Tus favoritos</p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {crm.topRestaurants.map(r => (
+              <span key={r.id} style={{
+                background: '#fff7f4', color: '#e85d24',
+                fontSize: '0.78rem', fontWeight: 600,
+                padding: '4px 10px', borderRadius: 99,
+                border: '1px solid #fed7aa',
+              }}>
+                {r.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function OrderCard({ order, onClick }) {
+  const date     = new Date(order.createdAt).toLocaleDateString('es-PE', { day: '2-digit', month: 'short', year: 'numeric' })
+  const time     = new Date(order.createdAt).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })
+  const isActive = !['DELIVERED', 'CANCELLED'].includes(order.status)
+
+  return (
+    <div
+      className={`myorder-card ${isActive ? 'myorder-card--active' : ''}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => e.key === 'Enter' && onClick()}
+    >
+      {isActive && <div className="myorder-live">En curso</div>}
+
+      <div className="myorder-header">
+        <div className="myorder-icon">
+          {order.type === 'DELIVERY' ? <Bike size={18} /> : <Calendar size={18} />}
+        </div>
+        <div className="myorder-info">
+          <p className="myorder-restaurant">{order.restaurant?.name}</p>
+          <p className="myorder-meta">
+            #{order.orderNumber?.slice(-8)} · {date} {time}
+          </p>
+        </div>
+        <ChevronRight size={18} className="myorder-arrow" />
+      </div>
+
+      <div className="myorder-items">
+        {order.items?.slice(0, 3).map(item => (
+          <span key={item.id} className="myorder-item">
+            {item.quantity}× {item.product?.name}
+          </span>
+        ))}
+        {order.items?.length > 3 && (
+          <span className="myorder-item-more">+{order.items.length - 3} más</span>
+        )}
+      </div>
+
+      <div className="myorder-footer">
+        <span className="myorder-total">S/ {order.total?.toFixed(2)}</span>
+        <OrderStatusBadge status={order.status} />
+      </div>
+    </div>
+  )
+}
+
+export default function MyOrders() {
+  const navigate = useNavigate()
+  const [statusFilter, setStatusFilter] = useState('')
+  const [typeFilter,   setTypeFilter]   = useState('')
+  const [page,         setPage]         = useState(1)
+
+  const { data, isLoading } = useMyOrders({
+    status: statusFilter,
+    type:   typeFilter,
+    page,
+    limit:  10,
+  })
+
+  const orders     = data?.data || []
+  const totalPages = data?.pagination?.totalPages || 1
+  const crm        = data?.crm
+
+  const active  = orders.filter(o => !['DELIVERED', 'CANCELLED'].includes(o.status))
+  const history = orders.filter(o =>  ['DELIVERED', 'CANCELLED'].includes(o.status))
+
+  return (
+    <div className="myorders">
+      <Navbar />
+      <div className="myorders-inner">
+        <h1 className="myorders-title">Mis pedidos</h1>
+
+        {/* CRM Stats */}
+        {!isLoading && <CRMStats crm={crm} />}
+
+        {/* Filtros */}
+        <div className="myorders-filters">
+          <div className="myorders-filter-group">
+            {FILTER_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                className={`myorders-filter-btn ${statusFilter === opt.value ? 'active' : ''}`}
+                onClick={() => { setStatusFilter(opt.value); setPage(1) }}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          <select
+            className="myorders-type-select"
+            value={typeFilter}
+            onChange={e => { setTypeFilter(e.target.value); setPage(1) }}
+          >
+            <option value="">Todos los tipos</option>
+            <option value="DELIVERY">🛵 Delivery</option>
+            <option value="RESERVATION">📅 Reservas</option>
+          </select>
+        </div>
+
+        {/* Loading */}
+        {isLoading && (
+          <div className="myorders-loading">
+            {[1,2,3].map(i => <div key={i} className="myorders-skeleton" />)}
+          </div>
+        )}
+
+        {/* Sin resultados */}
+        {!isLoading && orders.length === 0 && (
+          <div className="myorders-empty">
+            <ShoppingBag size={48} strokeWidth={1.5} />
+            <h2>No tienes pedidos aún</h2>
+            <p>Cuando hagas un pedido aparecerá aquí</p>
+            <button className="myorders-cta" onClick={() => navigate('/')}>
+              Explorar restaurantes
+            </button>
+          </div>
+        )}
+
+        {/* Pedidos activos */}
+        {!isLoading && active.length > 0 && (
+          <section className="myorders-section">
+            <h2 className="myorders-section-title">🔴 En curso ({active.length})</h2>
+            {active.map(order => (
+              <OrderCard
+                key={order.id}
+                order={order}
+                onClick={() => navigate(`/orders/${order.id}`)}
+              />
+            ))}
+          </section>
+        )}
+
+        {/* Historial */}
+        {!isLoading && history.length > 0 && (
+          <section className="myorders-section">
+            <h2 className="myorders-section-title">📋 Historial</h2>
+            {history.map(order => (
+              <OrderCard
+                key={order.id}
+                order={order}
+                onClick={() => navigate(`/orders/${order.id}`)}
+              />
+            ))}
+          </section>
+        )}
+
+        {/* Paginación */}
+        {totalPages > 1 && (
+          <div className="myorders-pagination">
+            <button
+              className="myorders-page-btn"
+              onClick={() => setPage(p => p - 1)}
+              disabled={page <= 1}
+            >← Anterior</button>
+            <span>Página {page} de {totalPages}</span>
+            <button
+              className="myorders-page-btn"
+              onClick={() => setPage(p => p + 1)}
+              disabled={page >= totalPages}
+            >Siguiente →</button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

@@ -90,7 +90,6 @@ export default function Checkout() {
         orderId: order.id,
         method:  paymentMethod,
       }
-
       await api.post('/api/v1/payments/charge', paymentPayload)
 
       // 3. Limpiar carrito y redirigir

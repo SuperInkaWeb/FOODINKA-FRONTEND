@@ -1,0 +1,39 @@
+import { useQuery } from '@tanstack/react-query'
+import { useAuth0 } from '@auth0/auth0-react'
+import { api, setAuthToken } from '../config/api.js'
+
+export function useMyOrders(params = {}) {
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0()
+
+  return useQuery({
+    queryKey: ['my-orders', params],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently({
+        authorizationParams: { audience: import.meta.env.VITE_AUTH0_AUDIENCE },
+      })
+      setAuthToken(token)
+      const { data } = await api.get('/api/v1/orders/my', { params })
+      return data
+    },
+    enabled: isAuthenticated,
+    refetchInterval: 30000, // refresca cada 30s para actualizar estados en tiempo real
+  })
+}
+
+export function useOrderDetail(id) {
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0()
+
+  return useQuery({
+    queryKey: ['order', id],
+    queryFn: async () => {
+      const token = await getAccessTokenSilently({
+        authorizationParams: { audience: import.meta.env.VITE_AUTH0_AUDIENCE },
+      })
+      setAuthToken(token)
+      const { data } = await api.get(`/api/v1/orders/${id}`)
+      return data.data
+    },
+    enabled: isAuthenticated && !!id,
+    refetchInterval: 15000,
+  })
+}

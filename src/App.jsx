@@ -7,6 +7,10 @@ import Cart             from './pages/Cart.jsx'
 import Checkout         from './pages/Checkout.jsx'
 import Onboarding       from './pages/Onboarding.jsx'
 import Dashboard        from './pages/admin/Dashboard.jsx'
+import BecomeDriver     from './pages/BecomeDriver.jsx'
+import DriverDashboard  from './pages/DriverDashboard.jsx'
+import MyOrders         from './pages/MyOrders.jsx'
+import OrderDetail      from './pages/OrderDetail.jsx'
 
 function AppRoutes() {
   useOnboarding()
@@ -19,6 +23,10 @@ function AppRoutes() {
       <Route path="/checkout"       element={<Checkout />} />
       <Route path="/onboarding"     element={<Onboarding />} />
       <Route path="/admin"          element={<Dashboard />} />
+      <Route path="/become-driver"  element={<BecomeDriver />} />
+      <Route path="/driver"         element={<DriverDashboard />} />
+      <Route path="/orders"         element={<MyOrders />} />
+      <Route path="/orders/:id"     element={<OrderDetail />} />
     </Routes>
   )
 }
