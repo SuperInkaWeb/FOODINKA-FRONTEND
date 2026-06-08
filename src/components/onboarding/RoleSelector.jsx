@@ -4,7 +4,7 @@ import './RoleSelector.css'
 export default function RoleSelector({ onSelect, loading }) {
   return (
     <div className="roleselector">
-      <h2 className="roleselector-title">¿Cómo quieres usar Foodinka?</h2>
+      <h2 className="roleselector-title">¿Cómo quieres usar Antojia?</h2>
       <p className="roleselector-sub">Elige el tipo de cuenta que mejor se adapte a ti</p>
 
       <div className="roleselector-options">

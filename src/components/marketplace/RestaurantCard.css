@@ -99,6 +99,21 @@
   flex-shrink: 0;
 }
 
+/* Logo fallback con iniciales */
+.rcard-logo-fallback {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
 .rcard-title-wrap {
   flex: 1;
   min-width: 0;

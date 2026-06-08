@@ -90,7 +90,7 @@ export const useCartStore = create(
         }, 0),
     }),
     {
-      name: 'foodinka-cart', // clave en localStorage
+      name: 'antojia-cart', // clave en localStorage
     }
   )
 )

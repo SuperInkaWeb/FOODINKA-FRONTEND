@@ -81,7 +81,7 @@ export default function Onboarding() {
     <div className="onboarding">
       <div className="onboarding-card">
         {/* Logo */}
-        <div className="onboarding-logo">🍽️ Foodinka</div>
+        <div className="onboarding-logo">🍽️ Antojia</div>
 
         {/* Progreso */}
         <div className="onboarding-steps">

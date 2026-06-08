@@ -1,0 +1,367 @@
+.rr {
+  min-height: 100vh;
+  background: #f8f8f6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.rr-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Encabezado ─────────────────────────────────────── */
+.rr-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  font-size: 0.82rem;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 6px;
+  transition: color 0.15s;
+}
+.rr-back:hover { color: #e85d24; }
+
+.rr-title-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.rr-title-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #fff7f4;
+  color: #e85d24;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid #fdba74;
+}
+.rr-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 4px;
+}
+.rr-subtitle {
+  font-size: 0.82rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* ── Pasos de progreso ──────────────────────────────── */
+.rr-progress {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #fff;
+  border: 1.5px solid #f0f0f0;
+  border-radius: 12px;
+  padding: 14px 20px;
+}
+.rr-progress-step {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #d1d5db;
+  white-space: nowrap;
+}
+.rr-progress-step span {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #fff;
+}
+.rr-progress-step--active {
+  color: #e85d24;
+  font-weight: 700;
+}
+.rr-progress-step--active span {
+  background: #e85d24;
+  border-color: #e85d24;
+  color: #fff;
+}
+.rr-progress-line {
+  flex: 1;
+  height: 2px;
+  background: #e5e7eb;
+  margin: 0 8px;
+  min-width: 20px;
+}
+
+/* ── Formulario ─────────────────────────────────────── */
+.rr-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Sección con título */
+.rr-section {
+  background: #fff;
+  border: 1.5px solid #f0f0f0;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.rr-section-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+/* Campos */
+.rr-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rr-field--half { max-width: 280px; }
+.rr-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.rr-req     { color: #e85d24; }
+.rr-optional { font-weight: 400; color: #9ca3af; }
+
+.rr-input {
+  height: 44px;
+  padding: 0 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.rr-input:focus        { border-color: #e85d24; }
+.rr-input--valid       { border-color: #16a34a; }
+.rr-input--invalid     { border-color: #dc2626; }
+.rr-textarea {
+  height: auto;
+  padding: 12px 14px;
+  resize: vertical;
+}
+select.rr-input { cursor: pointer; }
+
+/* RUC */
+.rr-ruc-wrap {
+  position: relative;
+}
+.rr-ruc { padding-right: 42px; }
+.rr-ruc-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+.rr-ruc-ok {
+  font-size: 0.78rem;
+  color: #15803d;
+  background: #f0fdf4;
+  border-radius: 8px;
+  padding: 7px 12px;
+}
+.rr-ruc-err {
+  font-size: 0.78rem;
+  color: #dc2626;
+  background: #fef2f2;
+  border-radius: 8px;
+  padding: 7px 12px;
+}
+
+/* Categorías */
+.rr-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rr-cat {
+  padding: 7px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 99px;
+  background: #fff;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: #374151;
+}
+.rr-cat:hover        { border-color: #fdba74; color: #e85d24; }
+.rr-cat--active      { background: #e85d24; border-color: #e85d24; color: #fff; font-weight: 700; }
+
+/* Fila 2 columnas */
+.rr-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Aviso */
+.rr-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.rr-notice-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.rr-notice p {
+  font-size: 0.82rem;
+  color: #92400e;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Botón principal */
+.rr-btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 52px;
+  background: #e85d24;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.rr-btn-submit:hover:not(:disabled)  { background: #d04e18; }
+.rr-btn-submit:active:not(:disabled) { transform: scale(0.98); }
+.rr-btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Pantalla de éxito ──────────────────────────────── */
+.rr-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+  border: 1.5px solid #f0f0f0;
+  border-radius: 18px;
+  padding: 48px 32px;
+  text-align: center;
+}
+.rr-success-icon { font-size: 3rem; }
+.rr-success h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+}
+.rr-success p {
+  font-size: 0.875rem;
+  color: #374151;
+  margin: 0;
+  max-width: 400px;
+  line-height: 1.6;
+}
+.rr-success-sub { color: #9ca3af !important; font-size: 0.82rem !important; }
+
+.rr-success-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-self: stretch;
+  max-width: 320px;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+.rr-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+.rr-step--done { color: #16a34a; font-weight: 700; }
+.rr-step-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ── Gate (sin acceso / ya tiene restaurante) ───────── */
+.rr-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1.5px solid #f0f0f0;
+  border-radius: 18px;
+  padding: 56px 32px;
+  text-align: center;
+  color: #9ca3af;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.rr-gate h2 { font-size: 1.1rem; font-weight: 700; color: #374151; margin: 0; }
+.rr-gate p  { font-size: 0.875rem; margin: 0; }
+.rr-gate-sub { font-size: 0.82rem !important; }
+
+/* Botones secundarios */
+.rr-btn-primary {
+  background: #e85d24; color: #fff; border: none;
+  border-radius: 10px; padding: 11px 28px;
+  font-size: 0.875rem; font-weight: 700; cursor: pointer;
+  transition: background 0.15s;
+}
+.rr-btn-primary:hover { background: #d04e18; }
+
+/* Spinner */
+.rr-spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 600px) {
+  .rr-inner   { padding: 20px 14px 64px; }
+  .rr-row     { grid-template-columns: 1fr; }
+  .rr-field--half { max-width: 100%; }
+  .rr-progress { padding: 12px 14px; gap: 0; }
+  .rr-progress-step { font-size: 0.7rem; }
+}

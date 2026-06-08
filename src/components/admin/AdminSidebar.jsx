@@ -21,7 +21,7 @@ export default function AdminSidebar({ active, onChange, sections }) {
       {/* Logo */}
       <div className="sidebar-logo" onClick={() => navigate('/')}>
         <ChefHat size={22} />
-        <span>Foodinka</span>
+        <span>Antojia</span>
         <small>Admin</small>
       </div>
 

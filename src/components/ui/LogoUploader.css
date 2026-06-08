@@ -1,0 +1,76 @@
+.lup { display: flex; flex-direction: column; gap: 6px; }
+
+/* ── Zona de drop ────────────────────────────────────────── */
+.lup-zone {
+  position: relative;
+  border: 2px dashed #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lup-zone:hover:not(.lup-zone--loading) {
+  border-color: #e85d24;
+  background: #fff7f4;
+}
+.lup-zone:focus { outline: 2px solid #e85d24; }
+.lup-zone--loading { cursor: default; }
+
+/* Tamaños */
+.lup--md .lup-zone { width: 100px; height: 100px; }
+.lup--sm .lup-zone { width: 64px;  height: 64px;  }
+
+/* ── Preview ─────────────────────────────────────────────── */
+.lup-preview {
+  width: 100%; height: 100%;
+  position: relative;
+}
+.lup-preview img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.lup-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px; color: #fff;
+  opacity: 0; transition: opacity 0.15s;
+  font-size: 0.72rem; font-weight: 600;
+}
+.lup-zone:hover .lup-overlay { opacity: 1; }
+
+/* ── Estado vacío ────────────────────────────────────────── */
+.lup-empty {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px; padding: 8px;
+  color: #9ca3af; text-align: center;
+}
+.lup-empty span { font-size: 0.72rem; font-weight: 600; }
+.lup-hint       { font-size: 0.62rem; font-weight: 400 !important; color: #d1d5db; }
+
+/* ── Cargando ────────────────────────────────────────────── */
+.lup-uploading {
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.85);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 6px; color: #e85d24;
+  font-size: 0.72rem; font-weight: 600;
+}
+.lup-spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Error ───────────────────────────────────────────────── */
+.lup-error {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.72rem; color: #dc2626;
+  background: #fef2f2; padding: 5px 9px;
+  border-radius: 6px;
+}

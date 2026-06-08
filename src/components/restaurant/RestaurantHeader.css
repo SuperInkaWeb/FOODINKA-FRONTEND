@@ -1,34 +1,53 @@
+/* ── Contenedor principal ───────────────────────────────── */
+.rheader {
+  width: 100%;
+  display: block;
+}
+
 .rheader-hero {
   position: relative;
+  width: 100%;
   height: 340px;
   overflow: hidden;
   background: #1f2937;
 }
 
-.rheader-hero img {
+/* ── Banner ─────────────────────────────────────────────── */
+.rheader-banner {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.75;
+  object-position: center;
+  display: block;
 }
 
+/* ── Gradiente oscuro abajo ─────────────────────────────── */
 .rheader-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 60%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.80) 0%,
+    rgba(0, 0, 0, 0.30) 50%,
+    rgba(0, 0, 0, 0.10) 100%
+  );
 }
 
-/* Botón volver */
+/* ── Botón volver ───────────────────────────────────────── */
 .rheader-back {
   position: absolute;
   top: 20px;
-  left: 24px;
+  left: 20px;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.25);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #fff;
   font-size: 0.875rem;
   font-weight: 500;
@@ -37,59 +56,92 @@
   cursor: pointer;
   transition: background 0.15s;
 }
-.rheader-back:hover { background: rgba(255,255,255,0.25); }
+.rheader-back:hover { background: rgba(255, 255, 255, 0.28); }
 
-/* Info sobre la imagen */
-.rheader-hero-info {
+/* ── Info (logo + nombre) — fijada abajo a la izquierda ── */
+.rheader-info {
   position: absolute;
   bottom: 28px;
-  left: 24px;
+  left: 20px;
+  right: 20px;            /* ← evita que se salga del contenedor */
+  z-index: 10;
   display: flex;
   align-items: flex-end;
-  gap: 16px;
-  max-width: calc(100% - 48px);
+  gap: 14px;
 }
 
+/* Logo real */
 .rheader-logo {
   width: 72px;
   height: 72px;
   border-radius: 12px;
   object-fit: cover;
-  border: 3px solid #fff;
+  border: 3px solid rgba(255, 255, 255, 0.9);
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
-.rheader-category {
+/* Logo fallback con iniciales */
+.rheader-logo-fallback {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  letter-spacing: 1px;
+}
+
+/* Textos */
+.rheader-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;           /* ← permite que el texto haga ellipsis */
+}
+
+.rheader-badge {
   display: inline-block;
-  background: #e85d24;
   color: #fff;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
   padding: 3px 10px;
   border-radius: 99px;
-  letter-spacing: 0.4px;
-  margin-bottom: 6px;
+  align-self: flex-start;
 }
 
 .rheader-name {
-  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-size: clamp(1.3rem, 4vw, 2rem);
   font-weight: 800;
   color: #fff;
-  margin: 0 0 4px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  word-break: break-word;
 }
 
 .rheader-district {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-size: 0.875rem;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   margin: 0;
 }
 
+/* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .rheader-hero    { height: 240px; }
-  .rheader-logo    { width: 56px; height: 56px; }
-  .rheader-back    { left: 16px; top: 16px; }
-  .rheader-hero-info { left: 16px; bottom: 20px; }
+  .rheader-hero          { height: 260px; }
+  .rheader-logo,
+  .rheader-logo-fallback { width: 54px; height: 54px; font-size: 1rem; }
+  .rheader-back          { top: 14px; left: 14px; font-size: 0.8rem; padding: 6px 12px; }
+  .rheader-info          { bottom: 20px; left: 14px; right: 14px; }
+  .rheader-name          { font-size: 1.2rem; }
 }

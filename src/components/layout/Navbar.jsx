@@ -1,8 +1,10 @@
-// src/components/layout/Navbar.jsx
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
-import { ShoppingCart, Menu, X, ChefHat, User, LogOut, LayoutDashboard, Bike } from 'lucide-react'
+import {
+  ShoppingCart, Menu, X, ChefHat, User, LogOut,
+  LayoutDashboard, Bike, ClipboardList, Store,
+} from 'lucide-react'
 import { useCartStore } from '../../store/cartStore.js'
 import { useCurrentUser } from '../../hooks/useCurrentUser.js'
 import './Navbar.css'
@@ -16,10 +18,11 @@ export default function Navbar({ cartCount }) {
   const totalItems = useCartStore(s => s.getTotalItems())
   const count      = cartCount ?? totalItems
 
-  // Rol desde la BD — más confiable que el token de Auth0
-  const role     = dbUser?.role || null
-  const isAdmin  = role === 'ADMIN'
-  const isDriver = role === 'DELIVERY'
+  const role              = dbUser?.role || null
+  const isAdmin           = role === 'ADMIN'
+  const isDriver          = role === 'DELIVERY'
+  const isRestaurantOwner = role === 'RESTAURANT_OWNER'
+  const isConsumer        = role === 'CONSUMER' || !role
 
   const handleLogout = () => {
     setProfileOpen(false)
@@ -39,7 +42,7 @@ export default function Navbar({ cartCount }) {
         {/* Logo */}
         <Link to="/" className="navbar-logo">
           <ChefHat size={26} strokeWidth={2} />
-          <span>Foodinka</span>
+          <span>Antojia</span>
         </Link>
 
         {/* Acciones desktop */}
@@ -79,16 +82,32 @@ export default function Navbar({ cartCount }) {
                     <ShoppingCart size={15} /> Mis pedidos
                   </button>
 
+                  {/* Panel restaurante (dueño) */}
+                  {isRestaurantOwner && (
+                    <button onClick={() => go('/restaurant-dashboard')}>
+                      <ClipboardList size={15} /> Ver pedidos del restaurante
+                    </button>
+                  )}
+
+                  {/* Inscribir restaurante (consumidor sin restaurante) */}
+                  {isConsumer && !isRestaurantOwner && !isDriver && (
+                    <button onClick={() => go('/register-restaurant')}>
+                      <Store size={15} /> Inscribir mi restaurante
+                    </button>
+                  )}
+
                   <div className="navbar-dropdown-divider" />
 
-                  {isDriver
-                    ? <button onClick={() => go('/driver')}>
-                        <Bike size={15} /> Panel repartidor
-                      </button>
-                    : <button onClick={() => go('/become-driver')}>
-                        <Bike size={15} /> Ser repartidor
-                      </button>
-                  }
+                  {isDriver && (
+                    <button onClick={() => go('/driver')}>
+                      <Bike size={15} /> Panel repartidor
+                    </button>
+                  )}
+                  {isConsumer && !isRestaurantOwner && (
+                    <button onClick={() => go('/become-driver')}>
+                      <Bike size={15} /> Ser repartidor
+                    </button>
+                  )}
 
                   {isAdmin && (
                     <button onClick={() => go('/admin')}>
@@ -124,10 +143,23 @@ export default function Navbar({ cartCount }) {
             : <>
                 <Link to="/profile" onClick={() => setMenuOpen(false)}>Mi perfil</Link>
                 <Link to="/orders"  onClick={() => setMenuOpen(false)}>Mis pedidos</Link>
-                {isDriver
-                  ? <Link to="/driver"        onClick={() => setMenuOpen(false)}>Panel repartidor</Link>
-                  : <Link to="/become-driver" onClick={() => setMenuOpen(false)}>Ser repartidor</Link>
-                }
+
+                {isRestaurantOwner && (
+                  <Link to="/restaurant-dashboard" onClick={() => setMenuOpen(false)}>
+                    Ver pedidos del restaurante
+                  </Link>
+                )}
+                {isConsumer && !isRestaurantOwner && !isDriver && (
+                  <Link to="/register-restaurant" onClick={() => setMenuOpen(false)}>
+                    Inscribir mi restaurante
+                  </Link>
+                )}
+                {isDriver && (
+                  <Link to="/driver" onClick={() => setMenuOpen(false)}>Panel repartidor</Link>
+                )}
+                {isConsumer && !isRestaurantOwner && (
+                  <Link to="/become-driver" onClick={() => setMenuOpen(false)}>Ser repartidor</Link>
+                )}
                 {isAdmin && (
                   <Link to="/admin" onClick={() => setMenuOpen(false)}>Dashboard admin</Link>
                 )}
