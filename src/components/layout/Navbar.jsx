@@ -1,8 +1,9 @@
+// src/components/layout/Navbar.jsx
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import {
-  ShoppingCart, Menu, X, ChefHat, User, LogOut,
+  ShoppingCart, Menu, X, User, LogOut,
   LayoutDashboard, Bike, ClipboardList, Store,
 } from 'lucide-react'
 import { useCartStore } from '../../store/cartStore.js'
@@ -39,10 +40,13 @@ export default function Navbar({ cartCount }) {
     <nav className="navbar">
       <div className="navbar-inner">
 
-        {/* Logo */}
+        {/* Logo imagen */}
         <Link to="/" className="navbar-logo">
-          <ChefHat size={26} strokeWidth={2} />
-          <span>Antojia</span>
+          <img
+            src="/logo.jpeg"
+            alt="Antojia"
+            className="navbar-logo-img"
+          />
         </Link>
 
         {/* Acciones desktop */}
@@ -82,14 +86,12 @@ export default function Navbar({ cartCount }) {
                     <ShoppingCart size={15} /> Mis pedidos
                   </button>
 
-                  {/* Panel restaurante (dueño) */}
                   {isRestaurantOwner && (
                     <button onClick={() => go('/restaurant-dashboard')}>
                       <ClipboardList size={15} /> Ver pedidos del restaurante
                     </button>
                   )}
 
-                  {/* Inscribir restaurante (consumidor sin restaurante) */}
                   {isConsumer && !isRestaurantOwner && !isDriver && (
                     <button onClick={() => go('/register-restaurant')}>
                       <Store size={15} /> Inscribir mi restaurante
@@ -143,7 +145,6 @@ export default function Navbar({ cartCount }) {
             : <>
                 <Link to="/profile" onClick={() => setMenuOpen(false)}>Mi perfil</Link>
                 <Link to="/orders"  onClick={() => setMenuOpen(false)}>Mis pedidos</Link>
-
                 {isRestaurantOwner && (
                   <Link to="/restaurant-dashboard" onClick={() => setMenuOpen(false)}>
                     Ver pedidos del restaurante

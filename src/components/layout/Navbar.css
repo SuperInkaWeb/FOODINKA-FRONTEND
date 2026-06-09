@@ -213,3 +213,10 @@
   padding: 2px 8px;
   border-radius: 99px;
 }
+/* Logo imagen */
+.navbar-logo-img {
+  height: 180px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
