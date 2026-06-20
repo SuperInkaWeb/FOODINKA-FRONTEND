@@ -1,0 +1,70 @@
+.payresult {
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+.payresult-card {
+  max-width: 480px;
+  margin: 64px auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 48px 32px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.payresult-card h1 {
+  font-size: 1.5rem;
+  margin: 20px 0 8px;
+  color: #111827;
+}
+
+.payresult-card p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+
+.payresult-spin {
+  color: #ea580c;
+  animation: payresult-spin 1s linear infinite;
+}
+
+@keyframes payresult-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.payresult-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.payresult-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.payresult-btn:hover {
+  background: #f3f4f6;
+}
+
+.payresult-btn--primary {
+  background: #ea580c;
+  border-color: #ea580c;
+  color: #fff;
+}
+
+.payresult-btn--primary:hover {
+  background: #c2410c;
+}

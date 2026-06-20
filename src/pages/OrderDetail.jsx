@@ -224,7 +224,7 @@ export default function OrderDetail() {
                 <div>
                   <p className="odetail-info-label">Método</p>
                   <p className="odetail-info-value">
-                    {order.payment.method === 'CARD'             ? '💳 Tarjeta'         :
+                    {order.payment.method === 'MERCADOPAGO'      ? '💳 Mercado Pago'    :
                      order.payment.method === 'YAPE'             ? '📱 Yape'            :
                      order.payment.method === 'CASH_ON_DELIVERY' ? '💵 Efectivo'        : order.payment.method}
                   </p>

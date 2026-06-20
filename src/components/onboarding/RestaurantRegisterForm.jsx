@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Loader2, ArrowLeft, CheckCircle, XCircle } from 'lucide-react'
 import { useApi } from '../../hooks/useApi.js'
 import './RestaurantRegisterForm.css'
@@ -30,31 +30,53 @@ export default function RestaurantRegisterForm({ onSubmit, onBack, loading }) {
     address: '', district: '', phone: '',
   })
 
-  const [rucStatus, setRucStatus] = useState(null) // null | 'checking' | 'valid' | 'invalid'
-  const [rucData,   setRucData]   = useState(null)  // datos de SUNAT
+  const [rucStatus,  setRucStatus]  = useState(null) // null | 'checking' | 'valid' | 'invalid'
+  const [rucData,    setRucData]    = useState(null)  // datos de SUNAT
+  const [rucErrMsg,  setRucErrMsg]  = useState(null)  // mensaje de error del backend
+
+  // Ref para evitar race conditions: si el usuario escribe otro RUC
+  // mientras el anterior aún está cargando, ignoramos la respuesta antigua.
+  const currentRucRef = useRef('')
 
   const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }))
 
   // Verificar RUC cuando tiene 11 dígitos
   const handleRucChange = async (e) => {
     const val = e.target.value.replace(/\D/g, '').slice(0, 11)
+    currentRucRef.current = val
+
     setForm(f => ({ ...f, ruc: val }))
     setRucData(null)
+    setRucErrMsg(null)
 
     if (val.length === 11) {
       setRucStatus('checking')
       try {
         const { data } = await api.get(`/api/v1/restaurants/verify-ruc/${val}`)
+
+        // Si el usuario ya escribió otro RUC, descartar esta respuesta
+        if (currentRucRef.current !== val) return
+
         setRucStatus('valid')
         setRucData(data.data)
-        // Autocompletar nombre si está vacío
-        if (!form.name && data.data?.razonSocial) {
-          setForm(f => ({ ...f, name: data.data.razonSocial, ruc: val }))
+
+        // Autocompletar nombre si está vacío (usando functional update para evitar closure stale)
+        if (data.data?.razonSocial) {
+          setForm(f => ({
+            ...f,
+            ruc: val,
+            name: f.name ? f.name : data.data.razonSocial,
+          }))
         } else {
           setForm(f => ({ ...f, ruc: val }))
         }
-      } catch {
+      } catch (err) {
+        if (currentRucRef.current !== val) return
+
+        // Mostrar mensaje real del backend si existe
+        const msg = err?.response?.data?.message || 'RUC no encontrado o inactivo en SUNAT'
         setRucStatus('invalid')
+        setRucErrMsg(msg)
         setForm(f => ({ ...f, ruc: val }))
       }
     } else {
@@ -110,7 +132,7 @@ export default function RestaurantRegisterForm({ onSubmit, onBack, loading }) {
         )}
         {rucStatus === 'invalid' && (
           <div className="rrform-ruc-err">
-            ❌ RUC no encontrado o inactivo en SUNAT
+            ❌ {rucErrMsg}
           </div>
         )}
       </div>

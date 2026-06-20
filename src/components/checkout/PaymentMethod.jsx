@@ -16,9 +16,9 @@ const METHODS = [
     onlyDelivery: false,
   },
   {
-    id:    'CARD',
-    label: 'Tarjeta de crédito/débito',
-    desc:  'Visa, Mastercard, American Express',
+    id:    'MERCADOPAGO',
+    label: 'Tarjeta (Mercado Pago)',
+    desc:  'Visa, Mastercard, American Express y más',
     icon:  '💳',
     onlyDelivery: false,
   },

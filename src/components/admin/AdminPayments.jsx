@@ -11,7 +11,7 @@ const STATUS_MAP = {
 }
 
 const METHOD_MAP = {
-  CARD:             '💳 Tarjeta',
+  MERCADOPAGO:      '💳 Mercado Pago',
   YAPE:             '📱 Yape',
   CASH_ON_DELIVERY: '💵 Efectivo',
 }

@@ -14,6 +14,7 @@ import OrderDetail         from './pages/OrderDetail.jsx'
 import RestaurantDashboard from './pages/RestaurantDashboard.jsx'
 import RegisterRestaurant  from './pages/RegisterRestaurant.jsx'
 import Profile from './pages/Profile.jsx'
+import PaymentResult from './pages/PaymentResult.jsx'
 
 function AppRoutes() {
   useOnboarding()
@@ -33,6 +34,9 @@ function AppRoutes() {
       <Route path="/restaurant-dashboard"  element={<RestaurantDashboard />} />
       <Route path="/register-restaurant"   element={<RegisterRestaurant />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/payment/success" element={<PaymentResult status="success" />} />
+      <Route path="/payment/pending" element={<PaymentResult status="pending" />} />
+      <Route path="/payment/failure" element={<PaymentResult status="failure" />} />
     </Routes>
   )
 }

@@ -181,7 +181,7 @@ function SectionRestaurant({ restaurant }) {
 
       <div className={`pf-restaurant-status pf-restaurant-status--${restaurant.status?.toLowerCase()}`}>
         {restaurant.status === 'ACTIVE'    ? '✅ Activo — visible para los clientes' :
-         restaurant.status === 'PENDING'   ? '⏳ Pendiente de verificación por Foodinka' :
+         restaurant.status === 'PENDING_VERIFICATION' ? '⏳ Pendiente de verificación por Foodinka' :
          restaurant.status === 'SUSPENDED' ? '🚫 Suspendido' : restaurant.status}
       </div>
 

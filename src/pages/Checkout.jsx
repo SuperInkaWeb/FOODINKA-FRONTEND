@@ -19,7 +19,7 @@ export default function Checkout() {
   const { items, restaurantId, restaurantName, getSubtotal, getTotalItems, clearCart } = useCartStore()
 
   const [orderType,    setOrderType]    = useState('DELIVERY')  // 'DELIVERY' | 'RESERVATION'
-  const [paymentMethod, setPaymentMethod] = useState('CASH_ON_DELIVERY') // 'CARD' | 'YAPE' | 'CASH_ON_DELIVERY'
+  const [paymentMethod, setPaymentMethod] = useState('CASH_ON_DELIVERY') // 'MERCADOPAGO' | 'YAPE' | 'CASH_ON_DELIVERY'
   const [loading,      setLoading]      = useState(false)
   const [notes,        setNotes]        = useState('')
 
@@ -86,16 +86,25 @@ export default function Checkout() {
       const order = orderRes.data
 
       // 2. Procesar el pago
-      const paymentPayload = {
-        orderId: order.id,
-        method:  paymentMethod,
+      if (paymentMethod === 'MERCADOPAGO') {
+        // Mercado Pago: crear preferencia y redirigir al checkout de MP.
+        // El pedido ya existe en BD, así que es seguro vaciar el carrito
+        // y dejar que el usuario complete el pago en el sitio de MP.
+        const { data: prefRes } = await api.post('/api/v1/payments/mercadopago/preference', {
+          orderId: order.id,
+        })
+        clearCart()
+        window.location.href = prefRes.data.initPoint
+        return // no quitar el loading: estamos navegando fuera del sitio
       }
-      await api.post('/api/v1/payments/charge', paymentPayload)
+
+      // Yape / Efectivo al recibir: flujo simulado actual
+      await api.post('/api/v1/payments/charge', { orderId: order.id, method: paymentMethod })
 
       // 3. Limpiar carrito y redirigir
       clearCart()
       toast.success('¡Pedido confirmado! 🎉', { duration: 4000 })
-      navigate(`/order/${order.id}`)
+      navigate(`/orders/${order.id}`)
 
     } catch (error) {
       const msg = error.response?.data?.message || 'Error al procesar el pedido'

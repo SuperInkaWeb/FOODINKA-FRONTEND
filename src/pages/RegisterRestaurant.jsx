@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useQueryClient } from '@tanstack/react-query'
@@ -72,6 +72,8 @@ export default function RegisterRestaurant() {
   })
   const [rucStatus, setRucStatus] = useState(null) // null | 'checking' | 'valid' | 'invalid'
   const [rucData,   setRucData]   = useState(null)
+  const [rucErrMsg, setRucErrMsg] = useState(null)
+  const currentRucRef = useRef('')
   const [loading,   setLoading]   = useState(false)
   const [done,      setDone]      = useState(false)
 
@@ -80,22 +82,31 @@ export default function RegisterRestaurant() {
   // ── Verificar RUC con SUNAT ────────────────────────────────
   const handleRucChange = async (e) => {
     const val = e.target.value.replace(/\D/g, '').slice(0, 11)
+    currentRucRef.current = val
     setForm(f => ({ ...f, ruc: val }))
     setRucData(null)
+    setRucErrMsg(null)
 
     if (val.length === 11) {
       setRucStatus('checking')
       try {
         const { data } = await api.get(`/api/v1/restaurants/verify-ruc/${val}`)
+
+        // Ignorar respuesta si el usuario ya cambió el RUC
+        if (currentRucRef.current !== val) return
+
         setRucStatus('valid')
         setRucData(data.data)
-        if (!form.name && data.data?.razonSocial) {
-          setForm(f => ({ ...f, name: data.data.razonSocial, ruc: val }))
+        if (data.data?.razonSocial) {
+          setForm(f => ({ ...f, ruc: val, name: f.name ? f.name : data.data.razonSocial }))
         } else {
           setForm(f => ({ ...f, ruc: val }))
         }
-      } catch {
+      } catch (err) {
+        if (currentRucRef.current !== val) return
+        const msg = err?.response?.data?.message || 'RUC no encontrado o inactivo en SUNAT'
         setRucStatus('invalid')
+        setRucErrMsg(msg)
         setForm(f => ({ ...f, ruc: val }))
       }
     } else {
@@ -173,7 +184,7 @@ export default function RegisterRestaurant() {
             <p><strong>{currentUser.restaurant.name}</strong></p>
             <p className="rr-gate-sub">
               Estado: {currentUser.restaurant.status === 'ACTIVE' ? '✅ Activo' :
-                       currentUser.restaurant.status === 'PENDING' ? '⏳ Pendiente de verificación' :
+                       currentUser.restaurant.status === 'PENDING_VERIFICATION' ? '⏳ Pendiente de verificación' :
                        currentUser.restaurant.status}
             </p>
             <button className="rr-btn-primary" onClick={() => navigate('/restaurant-dashboard')}>
@@ -255,7 +266,7 @@ export default function RegisterRestaurant() {
               )}
               {rucStatus === 'invalid' && (
                 <div className="rr-ruc-err">
-                  ❌ RUC no encontrado o inactivo en SUNAT
+                  ❌ {rucErrMsg}
                 </div>
               )}
             </div>

@@ -33,10 +33,12 @@ export default function BecomeDriver() {
 
   const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }))
 
+  const requiresLicense = ['MOTORCYCLE', 'CAR'].includes(form.vehicleType)
+
   const handleSubmit = async () => {
-    if (!form.dni.trim())           return toast.error('El DNI es requerido')
-    if (!form.licenseNumber.trim()) return toast.error('El número de carné de conducir es requerido')
-    if (!form.licensePhotoUrl.trim()) return toast.error('La URL de la foto del carné es requerida')
+    if (!form.dni.trim()) return toast.error('El DNI es requerido')
+    if (requiresLicense && !form.licenseNumber.trim())   return toast.error('El número de carné de conducir es requerido')
+    if (requiresLicense && !form.licensePhotoUrl.trim()) return toast.error('La URL de la foto del carné es requerida')
 
     setLoading(true)
     try {
@@ -111,28 +113,40 @@ export default function BecomeDriver() {
           </div>
         </div>
 
-        <div className="bdriver-card">
-          <h2 className="bdriver-section">3. Carné de conducir *</h2>
+        {requiresLicense && (
+          <div className="bdriver-card">
+            <h2 className="bdriver-section">3. Carné de conducir *</h2>
 
-          <div className="bdriver-notice">
-            🪪 El carné de conducir es obligatorio para poder tomar pedidos de delivery.
-          </div>
+            <div className="bdriver-notice">
+              🪪 El carné de conducir es obligatorio para poder tomar pedidos de delivery.
+            </div>
 
-          <div className="bdriver-field">
-            <label>Número del carné de conducir *</label>
-            <input className="bdriver-input" placeholder="Q12345678" value={form.licenseNumber} onChange={set('licenseNumber')} />
-          </div>
+            <div className="bdriver-field">
+              <label>Número del carné de conducir *</label>
+              <input className="bdriver-input" placeholder="Q12345678" value={form.licenseNumber} onChange={set('licenseNumber')} />
+            </div>
 
-          <div className="bdriver-field">
-            <label>URL foto del carné *</label>
-            <input className="bdriver-input" placeholder="https://..." value={form.licensePhotoUrl} onChange={set('licensePhotoUrl')} />
-          </div>
+            <div className="bdriver-field">
+              <label>URL foto del carné *</label>
+              <input className="bdriver-input" placeholder="https://..." value={form.licensePhotoUrl} onChange={set('licensePhotoUrl')} />
+            </div>
 
-          <div className="bdriver-field">
-            <label>URL foto del vehículo <span className="bdriver-hint">(opcional)</span></label>
-            <input className="bdriver-input" placeholder="https://..." value={form.vehiclePhotoUrl} onChange={set('vehiclePhotoUrl')} />
+            <div className="bdriver-field">
+              <label>URL foto del vehículo <span className="bdriver-hint">(opcional)</span></label>
+              <input className="bdriver-input" placeholder="https://..." value={form.vehiclePhotoUrl} onChange={set('vehiclePhotoUrl')} />
+            </div>
           </div>
-        </div>
+        )}
+
+        {!requiresLicense && form.vehicleType === 'BICYCLE' && (
+          <div className="bdriver-card">
+            <h2 className="bdriver-section">3. Foto del vehículo</h2>
+            <div className="bdriver-field">
+              <label>URL foto del vehículo <span className="bdriver-hint">(opcional)</span></label>
+              <input className="bdriver-input" placeholder="https://..." value={form.vehiclePhotoUrl} onChange={set('vehiclePhotoUrl')} />
+            </div>
+          </div>
+        )}
 
         <button className="bdriver-submit" onClick={handleSubmit} disabled={loading}>
           {loading

@@ -4,7 +4,7 @@ import './OrderSummary.css'
 const PAYMENT_LABELS = {
   CASH_ON_DELIVERY: '💵 Efectivo al recibir',
   YAPE:             '📱 Yape',
-  CARD:             '💳 Tarjeta',
+  MERCADOPAGO:      '💳 Mercado Pago',
 }
 
 const TYPE_LABELS = {

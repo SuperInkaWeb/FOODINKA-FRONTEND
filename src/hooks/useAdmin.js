@@ -86,7 +86,13 @@ export function useAdminMutations() {
   const { getAccessTokenSilently } = useAuth0()
   const qc = useQueryClient()
 
-  const invalidate = () => qc.invalidateQueries({ queryKey: ['admin'] })
+  // Invalida TODAS las queries de admin: cubre tanto las que usan
+  // key ['admin', 'metrics'] como las que usan ['admin-restaurants', params],
+  // ['admin-users', params], etc. invalidateQueries({queryKey:['admin']})
+  // NO las alcanzaba porque 'admin' !== 'admin-restaurants' como string.
+  const invalidate = () => qc.invalidateQueries({
+    predicate: (query) => String(query.queryKey[0]).startsWith('admin'),
+  })
 
   const withToken = async (fn) => {
     const token = await getAccessTokenSilently({
@@ -99,37 +105,37 @@ export function useAdminMutations() {
   const verifyRestaurant = useMutation({
     mutationFn: (id) => withToken(() => api.patch(`/api/v1/admin/restaurants/${id}/verify`)),
     onSuccess: () => { toast.success('Restaurante verificado'); invalidate() },
-    onError:   () => toast.error('Error al verificar restaurante'),
+    onError:   (err) => toast.error(err?.response?.data?.message || 'Error al verificar restaurante'),
   })
 
   const suspendRestaurant = useMutation({
     mutationFn: (id) => withToken(() => api.patch(`/api/v1/admin/restaurants/${id}/suspend`)),
     onSuccess: () => { toast.success('Restaurante suspendido'); invalidate() },
-    onError:   () => toast.error('Error al suspender restaurante'),
+    onError:   (err) => toast.error(err?.response?.data?.message || 'Error al suspender restaurante'),
   })
 
   const toggleUser = useMutation({
     mutationFn: (id) => withToken(() => api.patch(`/api/v1/admin/users/${id}/toggle`)),
     onSuccess: () => { toast.success('Usuario actualizado'); invalidate() },
-    onError:   () => toast.error('Error al actualizar usuario'),
+    onError:   (err) => toast.error(err?.response?.data?.message || 'Error al actualizar usuario'),
   })
 
   const changeRole = useMutation({
     mutationFn: ({ id, role }) => withToken(() => api.patch(`/api/v1/admin/users/${id}/role`, { role })),
     onSuccess: () => { toast.success('Rol actualizado'); invalidate() },
-    onError:   () => toast.error('Error al cambiar rol'),
+    onError:   (err) => toast.error(err?.response?.data?.message || 'Error al cambiar rol'),
   })
 
   const verifyDriver = useMutation({
     mutationFn: (id) => withToken(() => api.patch(`/api/v1/admin/drivers/${id}/verify`)),
     onSuccess: () => { toast.success('Repartidor verificado'); invalidate() },
-    onError:   () => toast.error('Error al verificar repartidor'),
+    onError:   (err) => toast.error(err?.response?.data?.message || 'Error al verificar repartidor'),
   })
 
   const suspendDriver = useMutation({
     mutationFn: (id) => withToken(() => api.patch(`/api/v1/admin/drivers/${id}/suspend`)),
     onSuccess: () => { toast.success('Repartidor suspendido'); invalidate() },
-    onError:   () => toast.error('Error al suspender repartidor'),
+    onError:   (err) => toast.error(err?.response?.data?.message || 'Error al suspender repartidor'),
   })
 
   return { verifyRestaurant, suspendRestaurant, toggleUser, changeRole, verifyDriver, suspendDriver }
