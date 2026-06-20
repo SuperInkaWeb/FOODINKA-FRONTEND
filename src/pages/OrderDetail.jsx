@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, MapPin, Phone, Clock, Calendar, Bike, User } from 'lucide-react'
+import { ArrowLeft, MapPin, Phone, Clock, Calendar, Bike, User, RefreshCw } from 'lucide-react'
+import toast from 'react-hot-toast'
 import Navbar from '../components/layout/Navbar.jsx'
 import OrderStatusBadge, { OrderProgressBar } from '../components/orders/OrderStatusBadge.jsx'
 import { useOrderDetail } from '../hooks/useOrders.js'
+import { useApi } from '../hooks/useApi.js'
 import './OrderDetail.css'
 
 const PLACEHOLDER = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&q=80'
@@ -10,7 +13,28 @@ const PLACEHOLDER = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w
 export default function OrderDetail() {
   const { id }    = useParams()
   const navigate  = useNavigate()
-  const { data: order, isLoading, isError } = useOrderDetail(id)
+  const api       = useApi()
+  const { data: order, isLoading, isError, refetch } = useOrderDetail(id)
+  const [checkingPayment, setCheckingPayment] = useState(false)
+
+  const handleCheckPayment = async () => {
+    setCheckingPayment(true)
+    try {
+      const { data } = await api.post('/api/v1/payments/mercadopago/sync', { orderId: id })
+      if (data.data?.status === 'PAID') {
+        toast.success('¡Pago confirmado! 🎉')
+      } else if (data.data?.status === 'PENDING') {
+        toast('Mercado Pago todavía no confirma el pago. Intenta de nuevo en unos segundos.')
+      } else {
+        toast.error('El pago no se pudo confirmar')
+      }
+      refetch()
+    } catch (err) {
+      toast.error(err?.response?.data?.message || 'No se pudo verificar el pago')
+    } finally {
+      setCheckingPayment(false)
+    }
+  }
 
   if (isLoading) return (
     <div className="odetail">
@@ -224,7 +248,7 @@ export default function OrderDetail() {
                 <div>
                   <p className="odetail-info-label">Método</p>
                   <p className="odetail-info-value">
-                    {order.payment.method === 'MERCADOPAGO'      ? '💳 Mercado Pago'    :
+                    {order.payment.method === 'MERCADOPAGO'       ? '💳 Mercado Pago'    :
                      order.payment.method === 'YAPE'             ? '📱 Yape'            :
                      order.payment.method === 'CASH_ON_DELIVERY' ? '💵 Efectivo'        : order.payment.method}
                   </p>
@@ -242,6 +266,17 @@ export default function OrderDetail() {
                 </div>
               </div>
             </div>
+
+            {order.payment.method === 'MERCADOPAGO' && order.payment.status === 'PENDING' && (
+              <button
+                className="odetail-check-payment-btn"
+                onClick={handleCheckPayment}
+                disabled={checkingPayment}
+              >
+                <RefreshCw size={16} className={checkingPayment ? 'odetail-spin' : ''} />
+                {checkingPayment ? 'Verificando...' : 'Verificar pago'}
+              </button>
+            )}
           </div>
         )}
 

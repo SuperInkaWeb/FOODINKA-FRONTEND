@@ -48,8 +48,9 @@ frontend/
     │   ├── RestaurantDetail.jsx  # Detalle + menú de restaurante
     │   ├── Cart.jsx           # Carrito de compras
     │   ├── Checkout.jsx       # Proceso de pago
+    │   ├── PaymentResult.jsx  # Retorno de Mercado Pago (success/pending/failure)
     │   ├── MyOrders.jsx       # Historial de pedidos del cliente
-    │   ├── OrderDetail.jsx    # Detalle de un pedido
+    │   ├── OrderDetail.jsx    # Detalle de un pedido (incl. "Verificar pago" para MP)
     │   ├── Profile.jsx        # Perfil editable (usuario / owner / driver)
     │   ├── Onboarding.jsx     # Primer acceso — elegir rol
     │   ├── BecomeDriver.jsx   # Registro de repartidor
@@ -66,13 +67,20 @@ frontend/
         │   └── RestaurantCard.jsx  # Tarjeta de restaurante
         ├── restaurant/
         │   └── RestaurantHeader.jsx  # Header del detalle
+        ├── checkout/
+        │   ├── OrderTypeSelector.jsx
+        │   ├── DeliveryForm.jsx
+        │   ├── ReservationForm.jsx
+        │   ├── PaymentMethod.jsx   # Yape / Efectivo / Mercado Pago
+        │   └── OrderSummary.jsx
         ├── orders/
         │   └── OrderStatusBadge.jsx
         ├── onboarding/
         │   ├── RoleSelector.jsx
         │   └── RestaurantRegisterForm.jsx
         ├── admin/
-        │   └── AdminSidebar.jsx
+        │   ├── AdminSidebar.jsx
+        │   └── AdminPayments.jsx  # incluye método Mercado Pago
         ├── cart/
         └── ui/
             ├── LogoUploader.jsx   # Subida de logo a Supabase Storage
@@ -115,6 +123,10 @@ VITE_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
+> 💡 Mercado Pago no necesita ninguna variable en el frontend — el checkout
+> (Checkout Pro) se crea enteramente en el backend; el frontend solo redirige
+> a la URL que este le devuelve.
+
 ### 4. Correr en desarrollo
 ```bash
 npm run dev
@@ -132,6 +144,9 @@ La app inicia en `http://localhost:5173`
 | `/restaurant/:id` | `RestaurantDetail` | Público |
 | `/cart` | `Cart` | Público |
 | `/checkout` | `Checkout` | Autenticado |
+| `/payment/success` | `PaymentResult` | Autenticado |
+| `/payment/pending` | `PaymentResult` | Autenticado |
+| `/payment/failure` | `PaymentResult` | Autenticado |
 | `/orders` | `MyOrders` | Autenticado |
 | `/orders/:id` | `OrderDetail` | Autenticado |
 | `/profile` | `Profile` | Autenticado |
@@ -151,8 +166,9 @@ La app inicia en `http://localhost:5173`
 1. Navega el marketplace en `/`
 2. Filtra restaurantes por categoría o distrito
 3. Entra al detalle y agrega productos al carrito
-4. Hace checkout eligiendo delivery o reserva
-5. Sigue el estado del pedido en `/orders`
+4. Hace checkout eligiendo delivery o reserva, y un método de pago: **Mercado Pago** (tarjeta), Yape o Efectivo al recibir
+5. Si elige Mercado Pago, es redirigido al checkout de MP y vuelve a `/payment/success|pending|failure`, donde se sincroniza el estado real del pago
+6. Sigue el estado del pedido en `/orders` — si el pago de Mercado Pago quedó pendiente, puede forzar la verificación con el botón **"Verificar pago"** en el detalle del pedido
 
 ### 🍽️ Dueño de Restaurante (RESTAURANT_OWNER)
 1. Se registra como dueño en `/register-restaurant`
@@ -190,6 +206,7 @@ Maneja todo el estado del servidor — fetching, caché, revalidación y mutacio
 ['restaurant-orders', id]      // pedidos del restaurante (refresca c/ 20s)
 ['restaurant-products', id]    // menú del restaurante
 ['orders']                     // pedidos del cliente
+['order', id]                  // detalle de un pedido (refresca c/ 15s; "Verificar pago" lo refetchea al instante)
 ```
 
 ### Zustand (cartStore)
