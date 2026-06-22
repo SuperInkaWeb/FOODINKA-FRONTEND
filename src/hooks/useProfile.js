@@ -145,3 +145,38 @@ export function useUpdateDriverVehicle() {
     onError: (err) => toast.error(err?.response?.data?.message || 'Error al actualizar vehículo'),
   })
 }
+
+// ── Conectar la cuenta de Mercado Pago del restaurante ──────────
+// Pide al backend la URL de autorización y redirige (sale del sitio).
+export function useConnectMercadoPago() {
+  const { getAccessTokenSilently } = useAuth0()
+  return useMutation({
+    mutationFn: async () => {
+      await withAuth(getAccessTokenSilently)
+      const res = await api.get('/api/v1/restaurants/mercadopago/connect')
+      return res.data
+    },
+    onSuccess: (data) => {
+      window.location.href = data.data.authUrl
+    },
+    onError: (err) => toast.error(err?.response?.data?.message || 'Error al conectar con Mercado Pago'),
+  })
+}
+
+// ── Desconectar la cuenta de Mercado Pago ───────────────────────
+export function useDisconnectMercadoPago() {
+  const { getAccessTokenSilently } = useAuth0()
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async () => {
+      await withAuth(getAccessTokenSilently)
+      const res = await api.delete('/api/v1/restaurants/mercadopago/disconnect')
+      return res.data
+    },
+    onSuccess: () => {
+      toast.success('Cuenta de Mercado Pago desconectada')
+      qc.invalidateQueries({ queryKey: ['current-user'] })
+    },
+    onError: (err) => toast.error(err?.response?.data?.message || 'Error al desconectar'),
+  })
+}

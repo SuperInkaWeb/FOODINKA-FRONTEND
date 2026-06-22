@@ -24,11 +24,14 @@ const METHODS = [
   },
 ]
 
-export default function PaymentMethod({ value, onChange, orderType }) {
-  // Para reservas no mostrar "Efectivo al recibir"
-  const available = METHODS.filter(m =>
-    orderType === 'RESERVATION' ? !m.onlyDelivery : true
-  )
+export default function PaymentMethod({ value, onChange, orderType, mpAvailable }) {
+  // Para reservas no mostrar "Efectivo al recibir"; ocultar Mercado Pago
+  // si el restaurante todavía no conectó su cuenta.
+  const available = METHODS.filter(m => {
+    if (orderType === 'RESERVATION' && m.onlyDelivery) return false
+    if (m.id === 'MERCADOPAGO' && !mpAvailable) return false
+    return true
+  })
 
   return (
     <div className="payment">
@@ -54,6 +57,12 @@ export default function PaymentMethod({ value, onChange, orderType }) {
         <div className="payment-note">
           💡 Para reservas, el pago se realiza al llegar al restaurante
           o puedes pagar online con Yape o tarjeta.
+        </div>
+      )}
+
+      {!mpAvailable && (
+        <div className="payment-note">
+          💳 Este restaurante todavía no activó pagos con tarjeta — disponible Yape o efectivo.
         </div>
       )}
     </div>

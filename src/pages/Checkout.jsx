@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 import toast from 'react-hot-toast'
 import { useCartStore } from '../store/cartStore.js'
+import { useRestaurant } from '../hooks/useRestaurants.js'
 import { useApi } from '../hooks/useApi.js'
 import Navbar from '../components/layout/Navbar.jsx'
 import OrderTypeSelector from '../components/checkout/OrderTypeSelector.jsx'
@@ -17,6 +18,8 @@ export default function Checkout() {
   const api       = useApi()
   const { user }  = useAuth0()
   const { items, restaurantId, restaurantName, getSubtotal, getTotalItems, clearCart } = useCartStore()
+  const { data: restaurantRes } = useRestaurant(restaurantId)
+  const mpAvailable = restaurantRes?.data?.mpConnected === true
 
   const [orderType,    setOrderType]    = useState('DELIVERY')  // 'DELIVERY' | 'RESERVATION'
   const [paymentMethod, setPaymentMethod] = useState('CASH_ON_DELIVERY') // 'MERCADOPAGO' | 'YAPE' | 'CASH_ON_DELIVERY'
@@ -173,6 +176,7 @@ export default function Checkout() {
                 value={paymentMethod}
                 onChange={setPaymentMethod}
                 orderType={orderType}
+                mpAvailable={mpAvailable}
               />
             </section>
 
